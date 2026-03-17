@@ -1,0 +1,58 @@
+<section class="section">
+  <div class="container" style="max-width: 800px;">
+    <p style="margin-bottom: 1rem;">
+      <a href="{{ blog.url }}">&larr; {{ blog.title }}</a>
+    </p>
+
+    <h1>{{ article.title }}</h1>
+    <p style="color: var(--color-muted); margin: 0.5rem 0 2rem;">
+      {{ article.published_at | date: '%B %d, %Y' }}
+      {%- if article.author != blank %} &middot; {{ article.author }}{% endif -%}
+    </p>
+
+    {%- if article.image -%}
+      <div style="margin-bottom: 2rem;">
+        {{ article.image | image_url: width: 1200 | image_tag: loading: 'eager', alt: article.title }}
+      </div>
+    {%- endif -%}
+
+    <div class="rte">{{ article.content }}</div>
+
+    {%- if blog.comments_enabled? -%}
+      <div style="margin-top: 3rem;">
+        <h3>{{ 'blogs.comments' | t | default: 'Comments' }}</h3>
+
+        {%- for comment in article.comments -%}
+          <div style="border-top: 1px solid var(--color-border); padding: 1rem 0;">
+            <p><strong>{{ comment.author }}</strong> &middot; {{ comment.created_at | date: '%B %d, %Y' }}</p>
+            <div>{{ comment.content }}</div>
+          </div>
+        {%- endfor -%}
+
+        {%- form 'new_comment', article -%}
+          <div class="form-group">
+            <label for="comment-author">Name</label>
+            <input type="text" id="comment-author" name="comment[author]" required>
+          </div>
+          <div class="form-group">
+            <label for="comment-email">Email</label>
+            <input type="email" id="comment-email" name="comment[email]" required>
+          </div>
+          <div class="form-group">
+            <label for="comment-body">Comment</label>
+            <textarea id="comment-body" name="comment[body]" rows="4" required></textarea>
+          </div>
+          <button type="submit" class="btn btn--primary">Post comment</button>
+        {%- endform -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Article template",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}

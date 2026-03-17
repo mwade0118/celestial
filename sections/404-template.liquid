@@ -1,0 +1,23 @@
+<section class="section">
+  <div class="container text-center" style="max-width: 600px; padding: 4rem 1rem;">
+    <h1>{{ 'general.page_not_found' | t }}</h1>
+    <p style="margin: 1rem 0 2rem; color: var(--color-muted);">The page you're looking for doesn't exist.</p>
+
+    <form action="/search" method="get" style="margin-bottom: 2rem;">
+      <div style="display: flex; gap: 0.5rem; max-width: 400px; margin: 0 auto;">
+        <input type="text" name="q" placeholder="{{ 'search.placeholder' | t }}" aria-label="{{ 'search.title' | t }}">
+        <button type="submit" class="btn btn--primary">{{ 'general.search' | t }}</button>
+      </div>
+    </form>
+
+    <a href="/" class="btn btn--secondary">{{ 'general.continue_shopping' | t }}</a>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "404 template",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,61 @@
+<section class="section">
+  <div class="container" style="max-width: 800px;">
+    <h1 class="section__heading">{{ 'search.title' | t }}</h1>
+
+    <form action="/search" method="get" style="margin-bottom: 2rem; text-align: center;">
+      <div style="display: flex; gap: 0.5rem; max-width: 500px; margin: 0 auto;">
+        <input type="text" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'search.placeholder' | t }}" aria-label="{{ 'search.title' | t }}">
+        <button type="submit" class="btn btn--primary">{{ 'general.search' | t }}</button>
+      </div>
+    </form>
+
+    {%- if search.performed -%}
+      {%- if search.results_count > 0 -%}
+        <p class="text-center" style="margin-bottom: 2rem;">
+          {{ 'search.results_count' | t: count: search.results_count, terms: search.terms }}
+        </p>
+
+        {%- paginate search.results by 10 -%}
+          <div class="grid" style="gap: 1.5rem;">
+            {%- for result in search.results -%}
+              <div style="border-bottom: 1px solid var(--color-border); padding-bottom: 1.5rem;">
+                <h3><a href="{{ result.url }}">{{ result.title }}</a></h3>
+                <p style="font-size: 0.9rem; color: var(--color-muted);">
+                  {{ result.content | strip_html | truncate: 200 }}
+                </p>
+              </div>
+            {%- endfor -%}
+          </div>
+
+          {%- if paginate.pages > 1 -%}
+            <nav class="pagination" aria-label="Pagination">
+              {%- if paginate.previous -%}
+                <a href="{{ paginate.previous.url }}">&laquo; Previous</a>
+              {%- endif -%}
+              {%- for part in paginate.parts -%}
+                {%- if part.is_link -%}
+                  <a href="{{ part.url }}">{{ part.title }}</a>
+                {%- else -%}
+                  <span class="current">{{ part.title }}</span>
+                {%- endif -%}
+              {%- endfor -%}
+              {%- if paginate.next -%}
+                <a href="{{ paginate.next.url }}">Next &raquo;</a>
+              {%- endif -%}
+            </nav>
+          {%- endif -%}
+        {%- endpaginate -%}
+      {%- else -%}
+        <p class="text-center">{{ 'search.no_results' | t: terms: search.terms }}</p>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Search template",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}

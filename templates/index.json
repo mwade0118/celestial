@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {}
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+"products_to_show": 6
+      }
+    }
+  },
+  "order": ["hero", "featured_collection"]
+}

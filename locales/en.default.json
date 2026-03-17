@@ -1,0 +1,65 @@
+{
+  "general": {
+    "search": "Search",
+    "cart": "Cart",
+    "menu": "Menu",
+    "close": "Close",
+    "continue_shopping": "Continue shopping",
+    "page_not_found": "Page not found"
+  },
+  "products": {
+    "add_to_cart": "Add to cart",
+    "sold_out": "Sold out",
+    "unavailable": "Unavailable",
+    "price": "Price",
+    "sale_price": "Sale price",
+    "quantity": "Quantity",
+    "from_price": "From {{ price }}"
+  },
+  "cart": {
+    "title": "Your cart",
+    "empty": "Your cart is empty",
+    "subtotal": "Subtotal",
+    "checkout": "Check out",
+    "remove": "Remove",
+    "update": "Update",
+    "product": "Product",
+    "price": "Price",
+    "quantity": "Quantity",
+    "total": "Total",
+    "note": "Order notes",
+    "note_placeholder": "Special instructions for your order",
+    "shipping_notice": "Shipping & taxes calculated at checkout",
+    "empty_message": "Looks like you haven't added anything yet."
+  },
+  "customer": {
+    "login": "Log in",
+    "register": "Create account",
+    "account": "My account",
+    "orders": "Order history",
+    "logout": "Log out",
+    "email": "Email",
+    "password": "Password",
+    "first_name": "First name",
+    "last_name": "Last name",
+    "forgot_password": "Forgot your password?",
+    "reset_password": "Reset password",
+    "activate_account": "Activate account",
+    "order_number": "Order",
+    "order_date": "Date",
+    "order_payment_status": "Payment status",
+    "order_fulfillment_status": "Fulfillment status",
+    "order_total": "Total"
+  },
+  "blogs": {
+    "read_more": "Read more",
+    "by_author": "By {{ author }}",
+    "posted_on": "Posted on {{ date }}"
+  },
+  "search": {
+    "title": "Search",
+    "placeholder": "Search our store",
+    "no_results": "No results found for \"{{ terms }}\"",
+    "results_count": "{{ count }} results for \"{{ terms }}\""
+  }
+}

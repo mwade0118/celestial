@@ -1,0 +1,49 @@
+<header class="header">
+  <div class="header__inner">
+    <button class="header__menu-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="{{ 'general.menu' | t }}">
+      {% render 'icon-menu' %}
+    </button>
+
+    <a href="/" class="header__logo" aria-label="{{ shop.name }}">
+      <img src="{{ 'script-logo.svg' | asset_url }}" alt="{{ shop.name }}" class="header__logo-img" loading="eager">
+    </a>
+
+    <a href="/cart" class="header__mascot" aria-label="{{ 'general.cart' | t }}">
+      <img src="{{ 'bagman.svg' | asset_url }}" alt="" class="header__mascot-img" loading="eager">
+    </a>
+  </div>
+</header>
+
+<div class="sidebar-overlay" aria-hidden="true"></div>
+<nav id="main-nav" class="sidebar" aria-label="Main navigation">
+  <div class="sidebar__header">
+    <button class="sidebar__close" aria-label="Close menu">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+        <line x1="4" y1="4" x2="16" y2="16"/>
+        <line x1="16" y1="4" x2="4" y2="16"/>
+      </svg>
+    </button>
+  </div>
+  <ul class="sidebar__nav">
+    {%- for link in linklists[section.settings.menu].links -%}
+      <li>
+        <a href="{{ link.url }}" class="sidebar__link">{{ link.title }}</a>
+      </li>
+    {%- endfor -%}
+  </ul>
+</nav>
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "header-section",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}

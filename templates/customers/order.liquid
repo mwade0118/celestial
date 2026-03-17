@@ -1,0 +1,40 @@
+<div class="section">
+  <div class="container">
+    <p><a href="/account">&larr; {{ 'customer.account' | t }}</a></p>
+
+    <h1 class="section__heading">{{ 'customer.order_number' | t }} {{ order.name }}</h1>
+    <p style="color: var(--color-muted);">{{ order.created_at | date: '%B %d, %Y' }}</p>
+
+    <table class="cart__table" style="margin-top: 2rem;">
+      <thead>
+        <tr>
+          <th>{{ 'cart.product' | t }}</th>
+          <th>{{ 'cart.quantity' | t }}</th>
+          <th>{{ 'cart.price' | t }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%- for line_item in order.line_items -%}
+          <tr>
+            <td>
+              {{ line_item.title }}
+              {%- if line_item.variant.title != 'Default Title' -%}
+                <br><small>{{ line_item.variant.title }}</small>
+              {%- endif -%}
+            </td>
+            <td>{{ line_item.quantity }}</td>
+            <td>{{ line_item.line_price | money }}</td>
+          </tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+
+    <div style="text-align: right; margin-top: 1rem;">
+      <p>Subtotal: {{ order.subtotal_price | money }}</p>
+      {%- for shipping_method in order.shipping_methods -%}
+        <p>Shipping ({{ shipping_method.title }}): {{ shipping_method.price | money }}</p>
+      {%- endfor -%}
+      <p><strong>Total: {{ order.total_price | money }}</strong></p>
+    </div>
+  </div>
+</div>

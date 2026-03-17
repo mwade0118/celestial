@@ -1,0 +1,16 @@
+{
+  "name": "celestial-theme",
+  "version": "1.0.0",
+  "description": "Celestial — A minimal Shopify theme starter",
+  "scripts": {
+    "dev": "shopify theme dev",
+    "push": "shopify theme push",
+    "pull": "shopify theme pull",
+    "check": "shopify theme check",
+    "share": "shopify theme share"
+  },
+  "devDependencies": {
+    "@shopify/cli": "^3.0.0",
+    "@shopify/theme": "^3.0.0"
+  }
+}

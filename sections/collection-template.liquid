@@ -1,0 +1,45 @@
+<section class="section">
+  <div class="container">
+    <h1 class="section__heading">{{ collection.title }}</h1>
+
+    {%- if collection.description != blank -%}
+      <div class="rte text-center" style="margin-bottom: 2rem;">{{ collection.description }}</div>
+    {%- endif -%}
+
+    {%- paginate collection.products by 12 -%}
+      <div class="grid grid--4">
+        {%- for product in collection.products -%}
+          {% render 'product-card', product: product %}
+        {%- endfor -%}
+      </div>
+
+      {%- if paginate.pages > 1 -%}
+        <nav class="pagination" aria-label="Pagination">
+          {%- if paginate.previous -%}
+            <a href="{{ paginate.previous.url }}">&laquo; Previous</a>
+          {%- endif -%}
+
+          {%- for part in paginate.parts -%}
+            {%- if part.is_link -%}
+              <a href="{{ part.url }}">{{ part.title }}</a>
+            {%- else -%}
+              <span class="current">{{ part.title }}</span>
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if paginate.next -%}
+            <a href="{{ paginate.next.url }}">Next &raquo;</a>
+          {%- endif -%}
+        </nav>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection template",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}

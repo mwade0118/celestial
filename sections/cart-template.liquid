@@ -1,0 +1,110 @@
+<section class="section">
+  <div class="container">
+    <h1 class="section__heading">{{ 'cart.title' | t }}</h1>
+
+    {%- if cart.item_count > 0 -%}
+      <div class="cart" data-cart-container>
+        {%- form 'cart', cart -%}
+          <div class="cart__layout">
+
+            <!-- Cart items -->
+            <div class="cart__items" data-cart-items>
+              {%- for item in cart.items -%}
+                <div class="cart__item" data-cart-item data-line-index="{{ forloop.index }}">
+
+                  <div class="cart__item-loading" data-item-loading aria-hidden="true">
+                    <span class="cart__spinner"></span>
+                  </div>
+
+                  <a href="{{ item.url }}" class="cart__item-media">
+                    {%- if item.image -%}
+                      {{ item.image | image_url: width: 200 | image_tag: class: 'cart__item-image', loading: 'lazy', alt: item.title }}
+                    {%- else -%}
+                      <div class="cart__item-placeholder">
+                        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                      </div>
+                    {%- endif -%}
+                  </a>
+
+                  <div class="cart__item-details">
+                    <div class="cart__item-header">
+                      <div>
+                        <a href="{{ item.url }}" class="cart__item-title">{{ item.product.title }}</a>
+                        {%- if item.variant.title != 'Default Title' -%}
+                          <p class="cart__item-variant">{{ item.variant.title }}</p>
+                        {%- endif -%}
+                        <p class="cart__item-price">{{ item.price | money }}</p>
+                      </div>
+                      <button type="button" class="cart__remove-btn" data-remove-item data-line-index="{{ forloop.index }}" aria-label="{{ 'cart.remove' | t }}">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                      </button>
+                    </div>
+
+                    <div class="cart__item-footer">
+                      <div class="cart__quantity">
+                        <button type="button" class="cart__quantity-btn" data-action="decrease" data-line-index="{{ forloop.index }}" aria-label="Decrease quantity">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        </button>
+                        <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" class="cart__quantity-input" data-line-index="{{ forloop.index }}" aria-label="{{ 'cart.quantity' | t }}">
+                        <button type="button" class="cart__quantity-btn" data-action="increase" data-line-index="{{ forloop.index }}" aria-label="Increase quantity">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        </button>
+                      </div>
+                      <p class="cart__item-line-price" data-line-price>{{ item.line_price | money }}</p>
+                    </div>
+                  </div>
+
+                </div>
+              {%- endfor -%}
+            </div>
+
+            <!-- Cart summary sidebar -->
+            <div class="cart__summary">
+              <div class="cart__summary-inner">
+                <h2 class="cart__summary-title">{{ 'cart.subtotal' | t }}</h2>
+                <p class="cart__subtotal" data-cart-subtotal>{{ cart.total_price | money }}</p>
+                <p class="cart__shipping-notice">{{ 'cart.shipping_notice' | t }}</p>
+
+                <div class="cart__note">
+                  <label for="cart-note">{{ 'cart.note' | t }}</label>
+                  <textarea id="cart-note" name="note" class="cart__note-textarea" placeholder="{{ 'cart.note_placeholder' | t }}">{{ cart.note }}</textarea>
+                </div>
+
+                <noscript>
+                  <button type="submit" name="update" class="btn btn--secondary cart__update-btn">{{ 'cart.update' | t }}</button>
+                </noscript>
+                <button type="submit" name="checkout" class="btn btn--primary cart__checkout-btn">{{ 'cart.checkout' | t }}</button>
+                <a href="/collections/all" class="cart__continue-link">{{ 'general.continue_shopping' | t }}</a>
+              </div>
+            </div>
+
+          </div>
+        {%- endform -%}
+      </div>
+
+    {%- else -%}
+      <div class="cart__empty">
+        <div class="cart__empty-icon">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="9" cy="21" r="1"/>
+            <circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+          </svg>
+        </div>
+        <h2 class="cart__empty-title">{{ 'cart.empty' | t }}</h2>
+        <p class="cart__empty-message">{{ 'cart.empty_message' | t }}</p>
+        <a href="/collections/all" class="btn btn--primary">{{ 'general.continue_shopping' | t }}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Cart template",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}
