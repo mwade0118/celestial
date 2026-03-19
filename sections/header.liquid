@@ -5,7 +5,8 @@
     </button>
 
     <a href="/" class="header__logo" aria-label="{{ shop.name }}">
-      <img src="{{ 'script-logo.svg' | asset_url }}" alt="{{ shop.name }}" class="header__logo-img" loading="eager">
+      <img src="{{ 'celestialscript.svg' | asset_url }}" alt="{{ shop.name }}" class="header__logo-img header__logo-img--default" loading="eager">
+      <img src="{{ 'camoscript.svg' | asset_url }}" alt="Camouflage" class="header__logo-img header__logo-img--hover" loading="eager">
     </a>
 
     <a href="/cart" class="header__mascot" aria-label="{{ 'general.cart' | t }}">

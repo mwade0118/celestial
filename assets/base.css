@@ -17,7 +17,7 @@ svg {
   display: block;
 }
 
-img:not(.hero__star-img),
+img:not(.hero__star-img):not(.header__logo-img),
 video {
   max-width: 100%;
   height: auto;
@@ -157,13 +157,28 @@ a:hover {
 
 .header__logo {
   justify-self: center;
-  display: flex;
+  display: grid;
   align-items: center;
+  justify-items: center;
 }
 
 .header__logo-img {
-  height: auto;
-  width: clamp(200px, 30vw, 380px);
+  height: clamp(28px, 4vw, 52px);
+  width: auto;
+  grid-area: 1 / 1;
+  transition: opacity 0.3s ease;
+}
+
+.header__logo-img--hover {
+  opacity: 0;
+}
+
+.header__logo:hover .header__logo-img--default {
+  opacity: 0;
+}
+
+.header__logo:hover .header__logo-img--hover {
+  opacity: 1;
 }
 
 .header__mascot {
@@ -292,6 +307,7 @@ a:hover {
   object-fit: contain;
   opacity: 0.5;
 }
+
 
 /* ============================================
    Featured Collection — Overlay on Hero
@@ -554,7 +570,7 @@ a:hover {
 .product__add-to-cart {
   display: block;
   width: 100%;
-  padding: 3.5rem;
+  padding: 1.25rem;
   background: transparent;
   border: 1px solid var(--color-primary);
   color: var(--color-primary);
