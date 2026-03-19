@@ -2,7 +2,31 @@
   "sections": {
     "main": {
       "type": "product-template",
-      "settings": {}
+      "settings": {},
+      "blocks": {
+        "garment_measurements": {
+          "type": "accordion",
+          "settings": {
+            "heading": "GARMENT MEASUREMENTS",
+            "use_product_description": false
+          }
+        },
+        "details": {
+          "type": "accordion",
+          "settings": {
+            "heading": "DETAILS",
+            "use_product_description": true
+          }
+        },
+        "care": {
+          "type": "accordion",
+          "settings": {
+            "heading": "CARE AND MAINTENANCE",
+            "use_product_description": false
+          }
+        }
+      },
+      "block_order": ["garment_measurements", "details", "care"]
     }
   },
   "order": ["main"]

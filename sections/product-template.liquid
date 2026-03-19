@@ -1,11 +1,19 @@
 <section class="section">
   <div class="container">
     <div class="product">
-      <div class="product__image">
-        {%- if product.featured_image -%}
-          {{ product.featured_image | image_url: width: 800 | image_tag: alt: product.featured_image.alt | escape }}
-        {%- else -%}
-          {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      <div class="product__images">
+        {%- for image in product.images limit: 4 -%}
+          <div class="product__image-cell">
+            {{ image | image_url: width: 800 | image_tag: alt: image.alt, loading: 'lazy' }}
+          </div>
+        {%- endfor -%}
+        {%- assign remaining = 4 | minus: product.images.size -%}
+        {%- if remaining > 0 -%}
+          {%- for i in (1..remaining) -%}
+            <div class="product__image-cell">
+              {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            </div>
+          {%- endfor -%}
         {%- endif -%}
       </div>
 
@@ -14,61 +22,123 @@
 
         <div class="product__price">
           {%- if product.compare_at_price > product.price -%}
-            <s>{{ product.compare_at_price | money }}</s>
+            <s class="product__price-compare">{{ product.compare_at_price | money_without_trailing_zeros }}</s>
           {%- endif -%}
-          {{ product.price | money }}
+          <span class="product__price-current" data-currency="{{ cart.currency.iso_code }}">{{ product.price | money_without_trailing_zeros }} {{ cart.currency.iso_code }}</span>
         </div>
 
         {%- form 'product', product -%}
           <div class="product__form">
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" data-variant-input>
+
             {%- if product.has_only_default_variant == false -%}
-              <div class="form-group">
-                <label for="variant-select">{{ 'products.variant' | t | default: 'Variant' }}</label>
-                <select name="id" id="variant-select">
-                  {%- for variant in product.variants -%}
-                    <option value="{{ variant.id }}"
-                      {%- unless variant.available %} disabled{% endunless -%}
-                    >
-                      {{ variant.title }} — {{ variant.price | money }}
-                    </option>
-                  {%- endfor -%}
-                </select>
-              </div>
-            {%- else -%}
-              <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+              {%- for option in product.options_with_values -%}
+                <div class="product__option">
+                  <div class="product__option-values">
+                    {%- for value in option.values -%}
+                      <button type="button"
+                        class="product__variant-btn{% if option.selected_value == value %} is-active{% endif %}"
+                        data-option-index="{{ option.position }}"
+                        data-value="{{ value }}"
+                      >
+                        {{ value }}
+                      </button>
+                    {%- endfor -%}
+                  </div>
+                </div>
+              {%- endfor -%}
             {%- endif -%}
 
-            <div class="form-group">
-              <label for="quantity">{{ 'products.quantity' | t }}</label>
-              <input type="number" id="quantity" name="quantity" value="1" min="1">
-            </div>
+            {%- if section.blocks.size > 0 -%}
+              <div class="product__accordions">
+                {%- for block in section.blocks -%}
+                  {%- if block.type == 'accordion' -%}
+                    <div class="accordion" {{ block.shopify_attributes }}>
+                      <button type="button" class="accordion__trigger" aria-expanded="false" aria-controls="accordion-{{ block.id }}">
+                        <span class="accordion__title">{{ block.settings.heading }}</span>
+                        <span class="accordion__icon" aria-hidden="true">&rsaquo;</span>
+                      </button>
+                      <div class="accordion__content" id="accordion-{{ block.id }}" hidden>
+                        <div class="accordion__body rte">
+                          {%- if block.settings.use_product_description -%}
+                            {{ product.description }}
+                          {%- else -%}
+                            {{ block.settings.content }}
+                          {%- endif -%}
+                        </div>
+                      </div>
+                    </div>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
 
-            <button type="submit" class="btn btn--primary"
-              {%- unless product.available %} disabled{% endunless -%}
-            >
+            <div class="product__add-to-cart-wrapper">
+              <button type="submit" class="product__add-to-cart"
+                {%- unless product.available %} disabled{% endunless -%}
+              >
+                {%- if product.available -%}
+                  {{ 'products.add_to_cart' | t }}
+                {%- else -%}
+                  {{ 'products.sold_out' | t }}
+                {%- endif -%}
+              </button>
               {%- if product.available -%}
-                {{ 'products.add_to_cart' | t }}
-              {%- else -%}
-                {{ 'products.sold_out' | t }}
+                <div class="product__bagman">
+                  {% render 'icon-bagman' %}
+                </div>
               {%- endif -%}
-            </button>
+            </div>
           </div>
         {%- endform -%}
-
-        {%- if product.description != blank -%}
-          <div class="rte" style="margin-top: 2rem;">
-            {{ product.description }}
-          </div>
-        {%- endif -%}
       </div>
     </div>
   </div>
+
+  <script type="application/json" data-product-variants>
+    {{ product.variants | json }}
+  </script>
 </section>
 
 {% schema %}
 {
   "name": "Product template",
   "tag": "section",
-  "settings": []
+  "settings": [],
+  "blocks": [
+    {
+      "type": "accordion",
+      "name": "Accordion item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Details"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content"
+        },
+        {
+          "type": "checkbox",
+          "id": "use_product_description",
+          "label": "Use product description as content",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product template",
+      "blocks": [
+        { "type": "accordion", "settings": { "heading": "GARMENT MEASUREMENTS" } },
+        { "type": "accordion", "settings": { "heading": "DETAILS", "use_product_description": true } },
+        { "type": "accordion", "settings": { "heading": "CARE AND MAINTENANCE" } }
+      ]
+    }
+  ]
 }
 {% endschema %}

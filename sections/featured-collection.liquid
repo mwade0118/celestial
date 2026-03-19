@@ -1,6 +1,6 @@
 <section class="featured-collection">
   <div class="container">
-<div class="grid grid--3">
+<div class="grid grid--4">
       {%- for product in collections[section.settings.collection].products limit: section.settings.products_to_show -%}
         {% render 'product-card', product: product %}
       {%- else -%}

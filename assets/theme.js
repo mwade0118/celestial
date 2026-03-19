@@ -149,4 +149,95 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
   }
+
+  /* ============================================
+     Bagman Swing Animation (hover + reduced-motion)
+     ============================================ */
+  var bagWrapper = document.querySelector('.product__add-to-cart-wrapper');
+  var bagAnim = document.querySelector('.bagman-bag animateTransform');
+
+  if (bagWrapper && bagAnim) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      bagAnim.setAttribute('dur', '0s');
+      bagAnim.setAttribute('values', '0 190 145;0 190 145;0 190 145;0 190 145;0 190 145');
+    }
+
+    bagWrapper.addEventListener('mouseenter', function () {
+      bagAnim.setAttribute('values', '-12 190 145;0 190 145;12 190 145;0 190 145;-12 190 145');
+      bagAnim.setAttribute('dur', '1.2s');
+    });
+
+    bagWrapper.addEventListener('mouseleave', function () {
+      bagAnim.setAttribute('values', '-6 190 145;0 190 145;6 190 145;0 190 145;-6 190 145');
+      bagAnim.setAttribute('dur', '2.5s');
+    });
+  }
+
+  /* ============================================
+     Product Accordions
+     ============================================ */
+  var accordionTriggers = document.querySelectorAll('.accordion__trigger');
+  accordionTriggers.forEach(function(trigger) {
+    trigger.addEventListener('click', function() {
+      var expanded = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', String(!expanded));
+      var content = document.getElementById(this.getAttribute('aria-controls'));
+      if (content) {
+        content.hidden = expanded;
+      }
+    });
+  });
+
+  /* ============================================
+     Product Variant Buttons
+     ============================================ */
+  var variantInput = document.querySelector('[data-variant-input]');
+  var variantDataEl = document.querySelector('[data-product-variants]');
+
+  if (variantInput && variantDataEl) {
+    var variants = JSON.parse(variantDataEl.textContent);
+
+    document.querySelectorAll('.product__variant-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var siblings = this.closest('.product__option-values').querySelectorAll('.product__variant-btn');
+        siblings.forEach(function(s) { s.classList.remove('is-active'); });
+        this.classList.add('is-active');
+
+        var selectedOptions = [];
+        document.querySelectorAll('.product__option').forEach(function(optionGroup) {
+          var activeBtn = optionGroup.querySelector('.product__variant-btn.is-active');
+          if (activeBtn) {
+            selectedOptions.push(activeBtn.dataset.value);
+          }
+        });
+
+        var matchedVariant = variants.find(function(v) {
+          return v.options.every(function(opt, i) {
+            return opt === selectedOptions[i];
+          });
+        });
+
+        if (matchedVariant) {
+          variantInput.value = matchedVariant.id;
+
+          var priceEl = document.querySelector('.product__price-current');
+          if (priceEl) {
+            var currency = priceEl.dataset.currency || 'USD';
+            var formatted = (matchedVariant.price / 100).toLocaleString('en-US', {
+              style: 'currency',
+              currency: currency,
+              minimumFractionDigits: 0
+            });
+            priceEl.textContent = formatted + ' ' + currency;
+          }
+
+          var addBtn = document.querySelector('.product__add-to-cart');
+          if (addBtn) {
+            addBtn.disabled = !matchedVariant.available;
+            addBtn.textContent = matchedVariant.available ? 'ADD TO CART' : 'SOLD OUT';
+          }
+        }
+      });
+    });
+  }
 });
