@@ -187,9 +187,10 @@ a:hover {
   align-items: center;
 }
 
-.header__mascot-img {
+.header__mascot .bagman-svg {
   width: clamp(40px, 5vw, 65px);
   height: auto;
+  display: block;
 }
 
 /* Sidebar overlay */

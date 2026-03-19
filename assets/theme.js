@@ -174,6 +174,29 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /* ============================================
+     Header Bagman Swing Animation (hover + reduced-motion)
+     ============================================ */
+  var headerMascot = document.querySelector('.header__mascot');
+  var headerBagAnim = headerMascot ? headerMascot.querySelector('.bagman-bag animateTransform') : null;
+
+  if (headerMascot && headerBagAnim) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      headerBagAnim.setAttribute('dur', '0s');
+      headerBagAnim.setAttribute('values', '0 190 145;0 190 145;0 190 145;0 190 145;0 190 145');
+    }
+
+    headerMascot.addEventListener('mouseenter', function () {
+      headerBagAnim.setAttribute('values', '-12 190 145;0 190 145;12 190 145;0 190 145;-12 190 145');
+      headerBagAnim.setAttribute('dur', '1.2s');
+    });
+
+    headerMascot.addEventListener('mouseleave', function () {
+      headerBagAnim.setAttribute('values', '-6 190 145;0 190 145;6 190 145;0 190 145;-6 190 145');
+      headerBagAnim.setAttribute('dur', '2.5s');
+    });
+  }
+
+  /* ============================================
      Product Accordions
      ============================================ */
   var accordionTriggers = document.querySelectorAll('.accordion__trigger');
