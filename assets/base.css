@@ -53,6 +53,22 @@ body {
 body.template-index {
   height: 100vh;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+body.template-index #main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+body.template-index #main > .shopify-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 /* Typography */
@@ -180,9 +196,12 @@ a:hover {
 }
 
 .header__mascot {
-  justify-self: end;
+  position: absolute;
+  top: calc(var(--spacing) * 0.5);
+  right: calc(var(--spacing) * 2);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  z-index: 10;
 }
 
 .header__mascot .bagman-svg {
@@ -280,10 +299,10 @@ a:hover {
   position: relative;
   z-index: 2;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
-  min-height: calc(100vh - 120px);
-  padding: calc(var(--spacing) * 2) 0;
+  flex: 1;
+  padding: calc(var(--spacing) * 2) 0 25vh;
 }
 
 .featured-collection .container {
