@@ -1,9 +1,5 @@
 {
   "sections": {
-    "hero": {
-      "type": "hero",
-      "settings": {}
-    },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
@@ -12,5 +8,5 @@
       }
     }
   },
-  "order": ["hero", "featured_collection"]
+  "order": ["featured_collection"]
 }

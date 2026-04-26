@@ -17,7 +17,7 @@ svg {
   display: block;
 }
 
-img:not(.hero__star-img):not(.header__logo-img),
+img:not(.header__logo-img),
 video {
   max-width: 100%;
   height: auto;
@@ -97,7 +97,6 @@ a:hover {
   .grid--3, .grid--4 { grid-template-columns: repeat(2, 1fr); }
   .featured-collection .grid--3 { grid-template-columns: repeat(3, 1fr); }
   .featured-collection .grid--3 { gap: 6vh calc(var(--spacing) * 2); }
-  .hero__star-img { width: 60vw; }
 }
 
 @media (max-width: 749px) {
@@ -105,7 +104,6 @@ a:hover {
   .featured-collection .grid--3 { grid-template-columns: repeat(3, 1fr); }
   .featured-collection .grid--3 { gap: 4vh calc(var(--spacing) * 1); }
   .featured-collection .container { max-width: 100%; }
-  .hero__star-img { width: 80vw; }
   h1 { font-size: 1.75rem; }
   h2 { font-size: 1.5rem; }
 }
@@ -188,7 +186,7 @@ a:hover {
 }
 
 .header__mascot .bagman-svg {
-  width: clamp(40px, 5vw, 65px);
+  width: clamp(70px, 9vw, 120px);
   height: auto;
   display: block;
 }
@@ -274,41 +272,6 @@ a:hover {
   opacity: 0.6;
   padding-left: 0.25rem;
 }
-
-/* ============================================
-   Hero — Star Outline Background
-   ============================================ */
-.hero {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-}
-
-.hero__star-bg {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  padding-top: 16vh;
-}
-
-.hero__star-img {
-  width: 70vw;
-  max-width: none;
-  height: auto;
-  object-fit: contain;
-  opacity: 0.5;
-}
-
 
 /* ============================================
    Featured Collection — Overlay on Hero
